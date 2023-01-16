@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random BG color using jQuery</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+    <style>
+        .colorDiv {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            margin: 5px;
+            border: solid 1px black;
+            display: inline-block;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="output">
+        <div class="colorDiv"></div>
+        <div class="colorDiv"></div>
+        <div class="colorDiv"></div>
+        <div class="colorDiv"></div>
+        <div class="colorDiv"></div>
+        <div class="colorDiv"></div>
+    </div>
+
+    <button id="stop">Stop</button>
+    <button id="reset">Reset</button>
+
+    <script>
+
+        $(document).ready(function () {
+
+            //Array to store Timeout-IDs
+            let tIDs = [];
+
+            //Add a click-event listener for random color function
+            $(".colorDiv").click((e) => {
+                let div = e.target;
+                tIDs.push(setInterval(() => changecolor(div), 1000));
+            });
+
+            //Clear Timeouts and array
+            $("#stop").click(() => {
+                for (let i in tIDs) { clearInterval(tIDs[i]) };
+                tIDs = [];
+            });
+
+            //Clear Timeouts and array and reset bg-color
+            $("#reset").click(() => {
+                for (let i in tIDs) { clearInterval(tIDs[i]) };
+                tIDs = [];
+                let divs = $(".colorDiv");
+                for (let i = 0; i < divs.length; i++) {
+                    divs[i].style.backgroundColor = "red";
+                };
+            });
+
+        });
+
+        // Generate random color value and assign it to HTML-element
+        function changecolor(el) {
+            el.style.backgroundColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+        };
+    </script>
+
+</body>
+
+</html>
